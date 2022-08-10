@@ -1,0 +1,27 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align: center; vertical-align: middle;">Nombre</th>
+            <th scope="col" style="text-align: center; vertical-align: middle;">Precio</th>
+            <th scope="col" style="text-align: center; vertical-align: middle;">thumbnail</th>
+            <th scope="col" style="text-align: center; vertical-align: middle;">Imágen</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody id="productos">
+        <% products.forEach(product=> { %>
+            <tr>
+                <td style="text-align: center; vertical-align: middle;">
+                    <%= product.name %>
+                 </td>
+                 <td style="text-align: center; vertical-align: middle;">$ <%= product.price %>
+                 </td>
+                 <td style="text-align: center; vertical-align: middle;">
+                    <%= product.thumbnail %>
+                 </td>
+                 <td style="text-align: center; vertical-align: middle;"><img src="<%= product.thumbnail %>" alt="" class="img-responsive"
+                         style="width:200px; height: 100px"></td>
+            </tr>
+            <% }) %>
+    </tbody>
+</table>

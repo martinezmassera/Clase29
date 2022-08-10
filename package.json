@@ -1,0 +1,25 @@
+{
+  "name": "clase29",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "connect-mongo": "^4.6.0",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "minimist": "^1.2.6",
+    "mongoose": "^6.5.2",
+    "normalizr": "^3.6.2",
+    "socket.io": "^4.5.1"
+  }
+}
