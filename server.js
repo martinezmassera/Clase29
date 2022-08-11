@@ -123,16 +123,15 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
+    if (req.session.username) {
+        return res.redirect('/')
+    }
     const SO = process.platform;
     const VDN = process.version;
     const MTR = process.memoryUsage().rss;
     const PDE = process.cwd();
     const PI = process.pid;
     const CDP = process.execPath;
-    if (req.session.username) {
-        return res.redirect('/')
-    }
-    const username = req.session.username
     console.log(SO)
     console.log(VDN)
     console.log(MTR)
@@ -140,6 +139,30 @@ app.get('/info', (req, res) => {
     console.log(PI)
     console.log(CDP)
     return res.render('info', { SO, VDN, MTR, PDE, PI, CDP })
+})
+
+const getRandomInt = (min = 1, max = 1000) => {
+    return Math.floor(Math.random() * (max - min +1)+ min);
+  }
+
+app.get('/api/randoms', (req, res) => {
+    console.log(req.session.username)
+    if (req.session.username) {
+        return res.redirect('/')
+    }else{
+        const cant = parseInt(req.query.cant) || 100000000
+   
+        valores = {}
+        for (let i = 0; i < cant; i++) {
+            const num = getRandomInt()
+     
+            if(num in valores) valores[num]++
+            else valores[num] = 1
+        }
+     
+         return res.send(valores)
+    }
+   
 })
 
 
