@@ -1,4 +1,5 @@
 require('dotenv').config()
+const { fork } = require('child_process')
 const express = require('express')
 const session = require('express-session')
 const parseArgs = require('minimist');
@@ -27,7 +28,7 @@ const io = new Server(server);
 app.use(express.static('public'))
 
 app.use(session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://martinezmassera:k8bpJCkdfXoCG0o0@cursocoderback.ssztq.mongodb.net/?retryWrites=true&w=majority' }),
+    store: MongoStore.create({ mongoUrl: process.env.MongoCred }),
     secret: 'thesecret',
     cookie: { maxAge: 600000 },
     resave: true,
@@ -80,7 +81,7 @@ app.get('/signup', (req, res) => {
 
 
 
-mongoose.connect("mongodb+srv://martinezmassera:k8bpJCkdfXoCG0o0@cursocoderback.ssztq.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MongoCred, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -141,9 +142,7 @@ app.get('/info', (req, res) => {
     return res.render('info', { SO, VDN, MTR, PDE, PI, CDP })
 })
 
-const getRandomInt = (min = 1, max = 1000) => {
-    return Math.floor(Math.random() * (max - min +1)+ min);
-  }
+
 
 app.get('/api/randoms', (req, res) => {
     console.log(req.session.username)
@@ -151,16 +150,11 @@ app.get('/api/randoms', (req, res) => {
         return res.redirect('/')
     }else{
         const cant = parseInt(req.query.cant) || 100000000
-   
-        valores = {}
-        for (let i = 0; i < cant; i++) {
-            const num = getRandomInt()
-     
-            if(num in valores) valores[num]++
-            else valores[num] = 1
-        }
-     
-         return res.send(valores)
+        const computo = fork('./random.js')
+        computo.send({cant})
+        computo.on('message', result => {
+            return res.json(result)
+        })
     }
    
 })
